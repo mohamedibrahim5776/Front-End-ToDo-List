@@ -1,182 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            text-transform: capitalize;
-        }
-        body {
-            background-color: darkcyan;
-
-        }
-        .content {
-            display: grid;
-            justify-content: center;
-        }
-        .radius {
-            border-radius:4px;
-        }
-        .container {
-            display: grid;
-            justify-content: center;
-            margin: 40px;
-            padding: 5px;
-            background-color:darkslateblue;
-            grid-template-columns: repeat(2,1fr);
-        }
-        .box1 ,.box2 {
-            background-color: darkcyan;
-            display: grid;
-            margin: 5px;
-            width: 350px;
-        }
-        .box1 {
-            background-color: darkcyan;
-            font-weight: bold;
-            height: 250px;
-            padding: 15px;
-        }
-        #message {
-            background-color: rgba(252, 155, 122, 0.929);
-            padding: 15px;
-            margin-bottom: 20px;
-            display: none;
-            /* color: brown; */
-        }
-        .box11 {
-            padding: 0 15px;
-            display: grid;
-            color:rgba(252, 155, 122, 0.929);
-        } 
-        .box11 label {
-            margin-bottom: 5px;
-        }
-        input[type="button"] {
-            width: 80px;
-            padding: 5px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        input#nameTask ,input#dateTask {
-            margin-bottom: 5px;
-            padding: 5px;
-            border: none;
-        }
-        input#nameTask ,input#dateTask:focus {
-            outline: none;
-        }
-        .box2 {
-            color:rgb(255 198 179 / 93%)
-        }
-        .box2 h2,.box2 h1 {
-            text-align: center;
-        }
-        .box2 h2 {
-            padding: 20px;
-            width: 96%;
-        }
-        #littleBox {
-            background-color: rgba(124, 2, 172, 0.751);
-            margin: 15px;
-            padding: 20px;
-        }
-        #littleBox h5 {
-            margin: 5px ;
-            font-size: 16px;
-        }
-        #littleBox div {
-            color: black;
-        background-color: rgba(252, 155, 122, 0.929);
-        margin: 5px;
-        padding: 10px;
-        position: relative;
-        }
-        #littleBox div button {
-            color: rgb(255, 0, 0);
-            /* background: red; */
-            padding: 3px;
-            margin: 0 5px;
-            font-size: 10px;
-            font-weight: bold;
-            /* position: absolute;
-            top: 15px;
-            left: 70px; */
-        }
-    </style>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/all.min.css">
+    <link rel="stylesheet" href="./css/main.css">
 </head>
-<body>
-  <div class="content radius">
-    <div class="container radius">
-        <div class="box1  radius">
-    <!-- Error message  -->
-           <div id="message" class="radius">
-            you must enter name
-           </div> 
-    <!-- start box1 -->
-           <div class="box11">
-            <label for="nameTask">task title</label>
-            <input type="text" class="radius" name="" placeholder="type your task title here" id="nameTask">
-            
-            <label for="dateTask">task date</label>
-            <input type="date" name="" class="radius" id="dateTask">
 
-            <input type="button" value="add task"
-            onclick="addTask()">
-            </div>
-        </div>
-    <!-- end box1 -->
-    <!-- start box2 -->
-        <div class="box2 center">
-            <h1>list tasks</h1>
-            <div class="cont">
-                <div id="littleBox">
-                    <h2 id="dele">no tasks added yet</h2>
-                    <!-- <h5 id="showText"></h5> -->
+<body>
+
+    <div class="container py-4 mt-3">
+        <div class="row">
+
+            <!-- start form -->
+            <div class="col-12 col-md-6">
+
+                <div class="card">
+                    <div id="validationMessage" class="none alert alert-danger">
+                        
+                        <!-- <button id="closeValidationMessageBtn" type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button> -->
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="taskTitle"> Task Title</label>
+                            <input id="taskTitle" type="text" class="form-control" placeholder="Type Your Task Title Here">
+                        </div>
+                        <div class="form-group">
+                            <label for="taskDate"> Task Date</label>
+                            <input id="taskDate" type="date" class="form-control">
+                        </div>
+                        <button id="addTaskBtn" class="btn btn-info"> Add Task </button>
+                    </div>
                 </div>
+
+            </div>
+
+            <!-- start tasks -->
+            <div class="col-12 col-md-6">
+                <h1 class="text-center"> List Tasks </h1>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div id="allTasks" class="allTasks">
+                            
+                        </div>
+                        <div id="noTask" class="alert alert-danger">
+                            <h3 class="text-center"> No Tasks Added yet </h3>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-    <!-- end box2 -->
     </div>
-  </div>
-  <script>
-    function addTask () {
-        if (nameTask.value == "") {
-            return message.style.display = 'block'
-        }
-        else {
-                message.style.display = 'none'
-                taskCont = document.createElement(`div`)
-                showText = document.createElement('h5')
-                showTextCont = document.createTextNode(nameTask.value)
-                iconText = document.createElement('button')
-                iconCont = document.createTextNode("x")
-                iconText.appendChild(iconCont)
-                iconText.onclick = function () {
-                    document.querySelector("#littleBox div").remove()
-                     if (document.querySelector('#littleBox div')== null) {
-                    dele.style.display ='block'
-                }
-                }
-                showText.appendChild(showTextCont)
-                taskCont.appendChild(showText)
-                showDate = document.createElement('p')
-                showDateCont = document.createTextNode(dateTask.value)
-                showDate.appendChild(showDateCont)
-                taskCont.appendChild(showText)
-                taskCont.appendChild(showDate)
-                showText.appendChild(iconText)  
-                littleBox.appendChild(taskCont)
-                dele.style.display ='none'
-               
-            }
-        }
-        
-  </script>
+
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/new.js"></script>
+</body>
+
 </html>
